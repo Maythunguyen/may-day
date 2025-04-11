@@ -14,19 +14,17 @@ import {
 import { useState } from "react";
 import { navItems } from "@/data";
 
-
 export function NavbarSection() {
-    const router = useRouter();
-
-    const handleSignUp = () => {
-        router.push("/sign-up");
-    }
-
-    const handleLogin = () => {
-        router.push("/sign-in");
-    }
-
+  const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleSignUp = () => {
+    router.push("/sign-up");
+  };
+
+  const handleLogin = () => {
+    router.push("/sign-in");
+  };
 
   return (
     <div className="relative w-full">
@@ -36,8 +34,12 @@ export function NavbarSection() {
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
-            <NavbarButton variant="secondary" onClick={handleLogin}>Login</NavbarButton>
-            <NavbarButton variant="primary" onClick={handleSignUp}>Sign up</NavbarButton>
+            <NavbarButton variant="secondary" onClick={handleLogin}>
+              Login
+            </NavbarButton>
+            <NavbarButton variant="primary" onClick={handleSignUp}>
+              Sign up
+            </NavbarButton>
           </div>
         </NavBody>
 
@@ -47,7 +49,8 @@ export function NavbarSection() {
             <NavbarLogo />
             <MobileNavToggle
               isOpen={isMobileMenuOpen}
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            />
           </MobileNavHeader>
 
           <MobileNavMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)}>
@@ -56,21 +59,34 @@ export function NavbarSection() {
                 key={`mobile-link-${idx}`}
                 href={item.link}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="relative text-neutral-600 dark:text-neutral-300">
+                className="relative text-neutral-600 dark:text-neutral-300"
+              >
                 <span className="block">{item.name}</span>
               </a>
             ))}
-            <div className="flex w-full flex-col gap-4">
+
+            <div className="flex w-full flex-col gap-4 mt-4">
+              {/* Mobile login */}
               <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
-                className="w-full">
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  handleLogin();
+                }}
+                variant="secondary"
+                className="w-full"
+              >
                 Login
               </NavbarButton>
+
+              {/* Mobile signup */}
               <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  handleSignUp();
+                }}
                 variant="primary"
-                className="w-full">
+                className="w-full"
+              >
                 Sign up
               </NavbarButton>
             </div>
@@ -80,4 +96,3 @@ export function NavbarSection() {
     </div>
   );
 }
-

@@ -8,6 +8,7 @@ import Image from "next/image";
 import edit from "../public/edit.svg";
 import bin from "../public/bin.svg";
 import CardModal from "./CardModal";
+import { FloatingDock } from "./ui/FloatingDock";
 
 
 
@@ -23,20 +24,16 @@ export const DashboardSingle = ({ journalEntries = [], onEdit, onDelete }) => {
       <div className="flex flex-1">
         <div
           className="flex h-full w-full flex-1 flex-col gap-2 rounded-tl-2xl border border-neutral-200 bg-white p-2 md:p-10 dark:border-neutral-700 dark:bg-neutral-900">
-          <div className="flex gap-2 overflow-x-auto whitespace-nowrap pb-2">
-            {dashboardItems.map((item, idx) => (
-              <Button
-                key={idx}
-                onClick={() => setSelectedTag(item.label)}
-              borderRadius="1.75rem"
-              className="bg-white dark:bg-slate-900 text-black dark:text-white border-neutral-200 dark:border-slate-800 cursor-pointer sm:px-2 sm:py-1"
-            >
-                <div className="flex items-center justify-center gap-2">
-                  {item.icon}
-                  <span className="hidden sm:inline text-sm">{item.label}</span>
-                </div>  
-            </Button>
-            ))}
+          <div className="flex justify-around">
+          <FloatingDock
+            items={dashboardItems.map((item) => ({
+                label: item.label,
+                icon: item.icon,
+                onClick: () => setSelectedTag(item.label),
+            }))}
+               desktopClassName="mx-auto mt-4"
+               mobileClassName=""
+            />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-6">
             {filteredEntries.length === 0 ? (

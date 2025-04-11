@@ -6,19 +6,49 @@ export default function AiInsights({ journalEntries }) {
   const [bulkResult, setBulkResult] = useState(null);
 
   useEffect(() => {
-    const doBulkAnalysis = async () => {
-      try {
-        const data = await AiAnalyseBulk(journalEntries);
-        setBulkResult(data.bulk_result);
-      } catch (err) {
-        console.error("Bulk analysis error:", err);
-      }
-    };
 
-    // Only call if we have some entries
-    if (journalEntries && journalEntries.length > 3) {
-      doBulkAnalysis();
+    if (!journalEntries || journalEntries.length === 0) return;
+    let names = []
+    for(let entry of journalEntries) {
+        if (!entry.title) continue;
+        const firstWord = entry.title.split(" ")[0]
+        if (firstWord) {
+            names.push(firstWord);
+        }
     }
+
+    let nameFreq = {}
+    for(let n of names) {
+        nameFreq[n] = (nameFreq[n] || 0) + 1
+    } 
+
+    let shouldBulk = false;
+    for (const [name, count] of Object.entries(nameFreq)) {
+      if (count > 2) {
+        shouldBulk = true;
+        break;
+      }
+    }
+
+    if (shouldBulk) {
+    console.log("journalEntries for bulk analysis:", journalEntries);
+      doBulkAnalysis(); // calls the function below
+    }
+    async function doBulkAnalysis() {
+        try {
+          // pass entire journal array
+          const data = await AiAnalyseBulk({
+            // If your backend expects { entries: [..] }, you can do:
+            entries: journalEntries,
+            // or if you only want to pass these 'names' specifically, you can do:
+            // names
+          });
+  
+          setBulkResult(data.bulk_result);
+        } catch (err) {
+          console.error("Bulk analysis error:", err);
+        }
+      }
   }, [journalEntries]);
 
   return (

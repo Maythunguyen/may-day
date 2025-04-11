@@ -16,13 +16,14 @@ export async function AiAnalyseData(entry) {
     return res.json();
 }
 
-export async function AiAnalyseBulk(entries) {
+export async function AiAnalyseBulk(journalEntries) {
    
-    
     const res = await fetch(`${baseURL}/api/ai_analyse_bulk`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ entries }), // pass the entire array
+      body: JSON.stringify({
+        entries: journalEntries,
+      }),
     });
   
     if (!res.ok) {

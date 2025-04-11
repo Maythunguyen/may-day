@@ -33,15 +33,15 @@ export function JournalModal({ onClose, onSave, initialData }) {
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
         transition={{ type: "spring", stiffness: 200, damping: 20 }}
-        className="bg-white dark:bg-neutral-400 p-10 rounded-4xl shadow-xl w-full max-w-md"
+        className="bg-white dark:bg-neutral-400 p-10 rounded-4xl shadow-xl w-full max-w-md md:mx-3 sm:mx-3"
       >
-        <h2 className="text-3xl font-bold mb-10 text-neutral-600 dark:text-neutral-100 mx-auto">Write your New Journal</h2>
+        <h2 className="lg:text-3xl md:text-2xl font-bold mb-10 text-neutral-600 dark:text-neutral-100 mx-auto sm:text-xl">Write your New Journal</h2>
 
         <div className="mb-4">
             <p className="mb-2 text-orange-1 font-bold">Title</p>
             <input
                 type="text"
-                placeholder="Type something..."
+                placeholder="This Journal is about..."
                 className="w-full px-6 py-3 rounded-2xl border border-dashed border-gray-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white focus:outline-none focus:ring-1  focus:ring-orange-1"
                 value={entryTitle}
                 onChange={(e) => setEntryTitle(e.target.value)}
@@ -77,7 +77,7 @@ export function JournalModal({ onClose, onSave, initialData }) {
                   className="cursor-pointer hover:bg-orange-1 hover:text-white dark:hover:bg-orange-1 dark:hover:text-white"
 
                 >
-                  {item.label}
+                  {item.icon} {item.label}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>

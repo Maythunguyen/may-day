@@ -125,7 +125,7 @@ export function SideBar() {
     <div
       className={cn(
         "mx-auto flex w-full max-w-7xl flex-1 flex-col overflow-hidden rounded-md border border-neutral-200 bg-gray-100 md:flex-row dark:border-neutral-700 dark:bg-neutral-800",
-        "min-h-screen sm:min-h-screen"
+        "min-h-screen",
       )}
     >
       <Sidebar open={open} setOpen={setOpen}>
@@ -143,6 +143,7 @@ export function SideBar() {
                     setShowTagLibrary(true);
                     setShowDashboard(false);
                     setIsJournalModalOpen(false);
+                    setShowAIInsights(false);
                     break;
                     case "Dashboard":
                     setShowDashboard(true);
@@ -159,10 +160,11 @@ export function SideBar() {
                     default:
                     break;
                 }
-                };
+                setOpen(false);
+            };
 
                 return (
-                <button key={idx} onClick={handleClick} className="text-left w-full">
+                <button key={idx} onClick={() => handleClick(link.label)} className="text-left w-full">
                     <SidebarLink link={link} />
                 </button>
                 );
@@ -180,7 +182,7 @@ export function SideBar() {
             
             /> : null}
             {showTagLibrary ? <TagLibrary /> : null}
-            {showAIInsights ? <AiInsights journalEntries={journalEntries}/> : null}
+            {showAIInsights ? <AiInsights journalEntries={journalEntries}/> : []}
         </Dashboard>
       </Sidebar>
 
