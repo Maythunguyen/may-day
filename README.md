@@ -96,6 +96,7 @@ Render (Backend hosting)
 Vercel (Frontend hosting)
 
 ## Future Plans
-Enhanced AI insights feature for deeper emotional analysis. This feature aggregates entries related to the same person or event, allowing the AI to analyse and provide recommendations or alerts regarding their positive or negative impacts.
-
-Cloud database integration for improved data storage and retrieval.
+- Enhanced AI insights feature for deeper emotional analysis. This feature aggregates entries related to the same person or event, allowing the AI to analyse and provide recommendations or alerts regarding their positive or negative impacts.
+- Add image upload feature to caption the beautiful moments in daily life. 
+- Improve the responsive on mobile device
+- Cloud database integration for improved data storage and retrieval.

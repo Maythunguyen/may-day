@@ -1,7 +1,6 @@
 "use client";
 
 import { dashboardItems } from "@/data";
-import { Button } from "./ui/MovingBorder";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -9,6 +8,7 @@ import edit from "../public/edit.svg";
 import bin from "../public/bin.svg";
 import CardModal from "./CardModal";
 import { FloatingDock } from "./ui/FloatingDock";
+import { IconPencil, IconTrash } from "@tabler/icons-react";
 
 
 
@@ -23,7 +23,7 @@ export const DashboardSingle = ({ journalEntries = [], onEdit, onDelete }) => {
     return (
       <div className="flex flex-1">
         <div
-          className="flex h-full w-full flex-1 flex-col gap-2 rounded-tl-2xl border border-neutral-200 bg-white p-2 md:p-10 dark:border-neutral-700 dark:bg-neutral-900">
+          className="flex h-full w-full flex-1 flex-col gap-2 rounded-tl-2xl border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-900">
           <div className="flex justify-around">
           <FloatingDock
             items={dashboardItems.map((item) => ({
@@ -64,15 +64,15 @@ export const DashboardSingle = ({ journalEntries = [], onEdit, onDelete }) => {
                                     <div className="font-normal text-white relative z-10 text-sm">
                                     {new Date(entry.createdAt).toLocaleDateString()}
                                     </div>
-                                    <div className="border border-orange-1 rounded-full py-2 text-white font-bold flex items-center justify-center text-center text-xs">
-                                    {entry.mood}
+                                    <div className="border border-orange-1 rounded-full py-1 text-white font-bold flex items-center justify-center text-center text-xs w-[60%]">
+                                         {entry.mood} 
                                     </div>
                                 </div>
                                 <div className="flex flex-row gap-2 w-[40%] justify-end">
                                     <div>
                                     
-                                        <Image
-                                            src={edit}
+                                        <IconPencil
+                                            className="text-neutral-200 hover:text-white cursor-pointer"
                                             width={20}
                                             height={20}
                                             alt="Picture of the author"
@@ -81,8 +81,8 @@ export const DashboardSingle = ({ journalEntries = [], onEdit, onDelete }) => {
                         
                                     </div>
                                     <div>
-                                        <Image
-                                            src={bin}
+                                        <IconTrash
+                                            className="text-neutral-200 hover:text-white cursor-pointer"
                                             width={20}
                                             height={20}
                                             alt="Picture of the author"
