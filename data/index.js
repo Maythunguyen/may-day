@@ -274,9 +274,9 @@ export const aboutMayDaysItems = [
     link: "#",
   },
   {
-    title: "Amazon",
+    title: "Emotional Insights",
     description:
-      "A multinational technology company focusing on e-commerce, cloud computing, digital streaming, and artificial intelligence.",
+      "Analyse your emotional patterns and gain insights into your mental well-being.",
     link: "#",
   },
   {
