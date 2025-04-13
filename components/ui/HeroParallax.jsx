@@ -28,7 +28,7 @@ export const HeroParallax = ({
   return (
     <div
       ref={ref}
-      className="h-[300vh] py-40 overflow-hidden  antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]">
+      className="h-[240vh] py-40 overflow-hidden  antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]">
       <Header />
       <motion.div
         style={{
@@ -59,31 +59,18 @@ export const HeroParallax = ({
 };
 
 export const Header = () => {
-  return (
-    <HeroHighlight>
-      <motion.h1
-        initial={{
-          opacity: 0,
-          y: 20,
-        }}
-        animate={{
-          opacity: 1,
-          y: [20, -5, 0],
-        }}
-        transition={{
-          duration: 0.5,
-          ease: [0.4, 0.0, 0.2, 1],
-        }}
-        className="text-2xl px-4 md:text-4xl lg:text-5xl font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto ">
-        Welcome back, May. Let’s reflect together&apos;s. 
-        {" "}
-        <Highlight className="text-black dark:text-white">
-            A little space to feel, heal, and grow
-        </Highlight>
-      </motion.h1>
-    </HeroHighlight>
-  );
-};
+    return (
+      <div className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full  left-0 top-0">
+        <h1 className="text-2xl md:text-7xl font-bold dark:text-white">
+          May Day <br /> Journal & Reflect Together
+        </h1>
+        <p className="max-w-2xl text-base md:text-xl mt-8 dark:text-neutral-200">
+        A self-awareness app for tracking moods, relationships, and reflections. Write daily journals, tag experiences, and let AI gently uncover emotional patterns to guide your well-being and personal growth.
+        </p>
+      </div>
+    );
+  };
+   
 
 export const ProductCard = ({
   product,

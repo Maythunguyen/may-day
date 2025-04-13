@@ -24,8 +24,8 @@ import {  UserButton } from "@clerk/nextjs";
 
 export const navItems = [
     {
-      name: "About May",
-      link: "#about",
+      name: "About May Day",
+      link: "#about-mayday",
     },
     {
       name: "Features",
@@ -39,57 +39,57 @@ export const navItems = [
 export const products = [
   {
     title: "Moonbeam",
-    link: "https://gomoonbeam.com",
+    link: "#",
     thumbnail:
       "/girl1.webp",
   },
   {
     title: "Cursor",
-    link: "https://cursor.so",
+    link: "#",
     thumbnail:
       "girl-bf.webp",
   },
   {
     title: "Rogue",
-    link: "https://userogue.com",
+    link: "#",
     thumbnail:
       "/girl-df.webp",
   },
 
   {
     title: "Editorially",
-    link: "https://editorially.org",
+    link: "#",
     thumbnail:
       "girl-sad.webp",
   },
   {
     title: "Editrix AI",
-    link: "https://editrix.ai",
+    link: "#",
     thumbnail:
       "girl-hp.webp",
   },
   {
     title: "Pixel Perfect",
-    link: "https://app.pixelperfect.quest",
+    link: "#",
     thumbnail:
       "girl-fm.webp",
   },
 
   {
     title: "Algochurn",
-    link: "https://algochurn.com",
+    link: "#",
     thumbnail:
       "/girl-dog.webp",
   },
   {
     title: "Algochurn",
-    link: "https://algochurn.com",
+    link: "#",
     thumbnail:
       "/girl-cf.webp",
   },
   {
     title: "Algochurn",
-    link: "https://algochurn.com",
+    link: "#",
     thumbnail:
       "/girl-dogg.webp",
   },
@@ -247,3 +247,43 @@ export const moods = [
     ),
   },
 ]
+
+export const aboutMayDaysItems = [
+  {
+    title: "Daily Journal",
+    description:
+      "Write and organize your thoughts, dreams, and reflections to track your emotional journey over time.",
+    link: "#",
+  },
+  {
+    title: "Gratitude Log",
+    description:
+      "Capture small moments of appreciation each day to cultivate positivity and emotional balance.",
+    link: "#",
+  },
+  {
+    title: "People & Connections",
+    description:
+      "Reflect on your interactions and let AI help you understand who uplifts or drains your energy.",
+    link: "#",
+  },
+  {
+    title: "Dating Reflections",
+    description:
+      "Receive thoughtful, therapist-like insights based on sentiment analysis of your journal entries.",
+    link: "#",
+  },
+  {
+    title: "Amazon",
+    description:
+      "A multinational technology company focusing on e-commerce, cloud computing, digital streaming, and artificial intelligence.",
+    link: "#",
+  },
+  {
+    title: "Mood Tracker",
+    description:
+      "Tag each entry with your mood and monitor trends in your emotional well-being over time.",
+
+    link: "#",
+  },
+];
