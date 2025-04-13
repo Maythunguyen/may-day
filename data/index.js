@@ -38,26 +38,26 @@ export const navItems = [
 
 export const products = [
   {
-    title: "Moonbeam",
+    title: "Feel Lovely",
     link: "#",
     thumbnail:
       "/girl1.webp",
   },
   {
-    title: "Cursor",
+    title: "Feel Shared",
     link: "#",
     thumbnail:
       "girl-bf.webp",
   },
   {
-    title: "Rogue",
+    title: "Feel connected",
     link: "#",
     thumbnail:
       "/girl-df.webp",
   },
 
   {
-    title: "Editorially",
+    title: "Feel upset",
     link: "#",
     thumbnail:
       "girl-sad.webp",
@@ -69,14 +69,14 @@ export const products = [
       "girl-hp.webp",
   },
   {
-    title: "Pixel Perfect",
+    title: "feel happy",
     link: "#",
     thumbnail:
       "girl-fm.webp",
   },
 
   {
-    title: "Algochurn",
+    title: "feel loved",
     link: "#",
     thumbnail:
       "/girl-dog.webp",
@@ -88,7 +88,7 @@ export const products = [
       "/girl-cf.webp",
   },
   {
-    title: "Algochurn",
+    title: "feel energized",
     link: "#",
     thumbnail:
       "/girl-dogg.webp",
