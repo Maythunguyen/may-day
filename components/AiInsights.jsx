@@ -24,7 +24,7 @@ export default function AiInsights({ journalEntries }) {
 
     let shouldBulk = false;
     for (const [name, count] of Object.entries(nameFreq)) {
-      if (count > 2) {
+      if (count >= 2) {
         shouldBulk = true;
         break;
       }
@@ -37,12 +37,23 @@ export default function AiInsights({ journalEntries }) {
     async function doBulkAnalysis() {
         try {
           // pass entire journal array
-          const data = await AiAnalyseBulk({
-            // If your backend expects { entries: [..] }, you can do:
-            entries: journalEntries,
-            // or if you only want to pass these 'names' specifically, you can do:
-            // names
-          });
+          const data = await AiAnalyseBulk(
+            journalEntries.map((entry) => ({
+              title: entry.title,
+              content: entry.content,
+              tag: entry.tag,
+              mood: entry.mood,
+            }))
+          );
+
+          console.log("🧾 Sending to AI bulk:", JSON.stringify({
+            entries: journalEntries.map((entry) => ({
+              title: entry.title,
+              content: entry.content,
+              tag: entry.tag,
+              mood: entry.mood,
+            }))
+          }, null, 2));
   
           setBulkResult(data.bulk_result);
         } catch (err) {

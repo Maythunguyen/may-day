@@ -33,12 +33,15 @@ export function SideBar() {
     const [journalEntries, setJournalEntries] = useState([]);
     const [editEntry, setEditEntry] = useState(null);
     const [aiAnalysis, setAiAnalysis] = useState(null);
+    const [isSaving, setIsSaving] = useState(false);
+    const [saveStatus, setSaveStatus] = useState("saving");
 
 
     const { user } = useUser(); 
     const userId = user?.id;
 
     const handleSaveJournal = async (title, content, tag, mood, backgroundImage, editId) => {
+        setIsSaving(true);
         const existing = JSON.parse(localStorage.getItem(userId)) || [];
         let updated;
         let result = null
@@ -58,8 +61,21 @@ export function SideBar() {
             console.log("AI Analysis Result:", result);
             setAiAnalysis(result);
 
+            setSaveStatus("saved");
+
+            setTimeout(() => {
+              setIsSaving(false);
+              setIsJournalModalOpen(false);
+              setEditEntry(null);
+
+            }, 1000)
+
+
+
         } catch (error) {
             console.error("Error fetching AI analysis:", error);
+            setSaveStatus("error");
+            setTimeout(() => setIsSaving(false), 2000);
         }
         // Edit entry
         if (editId) {
@@ -195,7 +211,13 @@ export function SideBar() {
             }} 
             onSave={handleSaveJournal}
             initialData={editEntry}
+            isSaving={isSaving}
         />
+      )}
+      {!isSaving && saveStatus === "saved" && (
+        <div className="fixed bottom-5 right-5 z-50 px-4 py-2 rounded-xl bg-black text-white text-sm shadow-lg">
+          Saved!
+        </div>
       )}
     </div>
   );

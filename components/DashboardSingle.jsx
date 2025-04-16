@@ -3,9 +3,6 @@
 import { dashboardItems } from "@/data";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
-import edit from "../public/edit.svg";
-import bin from "../public/bin.svg";
 import CardModal from "./CardModal";
 import { FloatingDock } from "./ui/FloatingDock";
 import { IconPencil, IconTrash } from "@tabler/icons-react";

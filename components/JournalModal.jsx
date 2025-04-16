@@ -13,7 +13,7 @@ import {
     IconMoodHappy
 } from "@tabler/icons-react";
 
-export function JournalModal({ onClose, onSave, initialData }) {
+export function JournalModal({ onClose, onSave, initialData, isSaving }) {
     const [selectedTag, setSelectedTag] = useState(initialData?.tag || "Daily Journal");
     const [selectedMood, setSelectedMood] = useState(initialData?.mood || "Normal");
     const [content, setContent] = useState(initialData?.content ||"");
@@ -123,17 +123,30 @@ export function JournalModal({ onClose, onSave, initialData }) {
           <button 
           
           className="px-4 py-2 bg-black text-white rounded-xl text-sm cursor-pointer"
-          onClick={() => onSave(
-            entryTitle,          
-            content,             
-            selectedTag,
-            selectedMood,
-            selectedBackground,
-            initialData?.id
-          )}
+          disabled={isSaving}
+          onClick={() => {
+            if (!isSaving) {
+              onSave(
+                entryTitle,
+                content,
+                selectedTag,
+                selectedMood,
+                selectedBackground,
+                initialData?.id
+              );
+            } 
+          }}
           >
-           {initialData ? "Update" : "Save"}
+           {isSaving ? (
+              <span className="flex items-center gap-2">
+                <span className="animate-pulse">Saving</span>
+                <span className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin inline-block" />
+              </span>
+            ) : (
+              <>{initialData ? "Update" : "Save"}</>
+            )}
           </button>
+          
         </div>
       </motion.div>
     </div>
