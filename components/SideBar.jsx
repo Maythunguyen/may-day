@@ -35,10 +35,33 @@ export function SideBar() {
     const [aiAnalysis, setAiAnalysis] = useState(null);
     const [isSaving, setIsSaving] = useState(false);
     const [saveStatus, setSaveStatus] = useState("saving");
+    const [bulkResult, setBulkResult] = useState(null);
+    const [insightsUpdated, setInsightsUpdated] = useState(false);
 
 
     const { user } = useUser(); 
     const userId = user?.id;
+
+    useEffect(() => {
+      if (saveStatus === "saved") {
+        const timer = setTimeout(() => {
+          setSaveStatus(""); // Clear it so message disappears
+        }, 2000);
+    
+        return () => clearTimeout(timer);
+      }
+    }, [saveStatus]);
+
+    useEffect(() => {
+  
+      if (insightsUpdated) {
+        const timer = setTimeout(() => {
+          setInsightsUpdated(false)
+        }, 3000)
+        return () => clearTimeout(timer);
+      }
+
+    }, [insightsUpdated])
 
     const handleSaveJournal = async (title, content, tag, mood, backgroundImage, editId) => {
         setIsSaving(true);
@@ -110,10 +133,6 @@ export function SideBar() {
       
           updated = [...existing, newEntry];
         }
-
-        
-        
-      
         localStorage.setItem(userId, JSON.stringify(updated));
         setJournalEntries(updated);
         setIsJournalModalOpen(false);
@@ -198,7 +217,7 @@ export function SideBar() {
             
             /> : null}
             {showTagLibrary ? <TagLibrary /> : null}
-            {showAIInsights ? <AiInsights journalEntries={journalEntries}/> : []}
+            {showAIInsights ? <AiInsights journalEntries={journalEntries} onBulkComplete={() => setInsightsUpdated(true)} bulkResult={bulkResult} setBulkResult={setBulkResult}/> : []}
         </Dashboard>
       </Sidebar>
 
@@ -215,8 +234,13 @@ export function SideBar() {
         />
       )}
       {!isSaving && saveStatus === "saved" && (
-        <div className="fixed bottom-5 right-5 z-50 px-4 py-2 rounded-xl bg-black text-white text-sm shadow-lg">
+        <div className="fixed bottom-5 right-5 z-50 px-4 py-2 rounded-xl bg-green-100 border border-green-400 text-green-900 text-sm shadow-lg">
           Saved!
+        </div>
+      )}
+      {insightsUpdated && (
+        <div className="fixed bottom-5 right-5 z-50 px-4 py-2 rounded-xl bg-green-100 border border-green-400 text-green-900 text-sm shadow-lg">
+          May Day have some ingsights for you! Let go to AI Insights section!
         </div>
       )}
     </div>
