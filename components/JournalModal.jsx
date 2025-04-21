@@ -23,7 +23,7 @@ export function JournalModal({ onClose, onSave, initialData, isSaving }) {
   return (
     <div 
         className="fixed inset-0 z-50 flex items-start sm:items-center justify-center
-                 overflow-hidden px-4 py-8 bg-black/50 bg-cover bg-center"
+                 overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-400 px-4 py-8 bg-black/50 bg-cover bg-center"
         style={{
         backgroundImage: `url('/girl-fm.webp')`,
         backgroundBlendMode: 'overlay',
@@ -38,7 +38,7 @@ export function JournalModal({ onClose, onSave, initialData, isSaving }) {
         className="w-full sm:max-w-lg max-w-md bg-white dark:bg-neutral-400
                    p-6 sm:p-10 rounded-2xl sm:rounded-4xl shadow-xl
                    max-h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-400
-                    dark:scrollbar-thumb-neutral-600 scrollbar-track-transparent"
+                    dark:scrollbar-thumb-neutral-600 scrollbar-track-transparent "
       >
         <h2 className="lg:text-3xl md:text-2xl font-bold mb-10 text-neutral-600 dark:text-neutral-100 mx-auto sm:text-xl">Write your New Journal</h2>
 
