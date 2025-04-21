@@ -1,8 +1,7 @@
 "use client";
 
-import { useUser, UserButton } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { SideBar } from "./SideBar";
-import { Dashboard } from "./DashboardContent";
 
 export default function DashboardClient() {
   const { user, isLoaded } = useUser();

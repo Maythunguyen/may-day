@@ -22,18 +22,23 @@ export function JournalModal({ onClose, onSave, initialData, isSaving }) {
 
   return (
     <div 
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 bg-cover bg-center"
+        className="fixed inset-0 z-50 flex items-start sm:items-center justify-center
+                 overflow-hidden px-4 py-8 bg-black/50 bg-cover bg-center"
         style={{
         backgroundImage: `url('/girl-fm.webp')`,
         backgroundBlendMode: 'overlay',
         }}
     >
       <motion.div
+        onClick={(e) => e.stopPropagation()}
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
         transition={{ type: "spring", stiffness: 200, damping: 20 }}
-        className="bg-white dark:bg-neutral-400 p-10 rounded-4xl shadow-xl w-full max-w-md md:mx-3 sm:mx-3"
+        className="w-full sm:max-w-lg max-w-md bg-white dark:bg-neutral-400
+                   p-6 sm:p-10 rounded-2xl sm:rounded-4xl shadow-xl
+                   max-h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-400
+                    dark:scrollbar-thumb-neutral-600 scrollbar-track-transparent"
       >
         <h2 className="lg:text-3xl md:text-2xl font-bold mb-10 text-neutral-600 dark:text-neutral-100 mx-auto sm:text-xl">Write your New Journal</h2>
 
