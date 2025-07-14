@@ -39,6 +39,7 @@ export default function VoiceInputModal({
 
         const { reply } = await messageWithAiAPI(message);
         pushMessage?.("ai", reply);
+        setThinking(false);
 
         const utter = new SpeechSynthesisUtterance(reply);
         utter.lang = "en-AU";
