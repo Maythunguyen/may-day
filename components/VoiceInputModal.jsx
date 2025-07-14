@@ -42,7 +42,9 @@ export default function VoiceInputModal({
         setThinking(false);
 
         const utter = new SpeechSynthesisUtterance(reply);
-        utter.lang = "en-AU";
+        utter.voice = speechSynthesis
+            .getVoices()
+            .find(v => v.name === "Google UK English Female" || v.name.includes("Natural"));
 
         // silence mic while TTS plays
         utter.onstart = () => SpeechRecognition.abortListening();
