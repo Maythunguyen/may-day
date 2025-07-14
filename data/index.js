@@ -120,7 +120,7 @@ export const links = [
     ),
   },
   {
-    label: "AI Insights",
+    label: "Chat with AI",
     href: "#",
     icon: (
       <IconBrain className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />

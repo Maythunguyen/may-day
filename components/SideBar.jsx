@@ -9,8 +9,8 @@ import { Logo, LogoIcon } from "./Logo";
 import { TagLibrary } from "./TagLibrary";
 import { DashboardSingle } from "./DashboardSingle";
 import { useUser } from "@clerk/nextjs";
-import AiInsights from "./AiInsights";
 import { AiAnalyseData } from "@/app/api/AIAnalyseAPI";
+import { ShareWithAi } from "./ShareWithAi";
 
 export function SideBar() {
 
@@ -29,13 +29,12 @@ export function SideBar() {
   const [isJournalModalOpen, setIsJournalModalOpen] = useState(false);
   const [showTagLibrary, setShowTagLibrary] = useState(false);
     const [showDashboard, setShowDashboard] = useState(true);
-    const [showAIInsights, setShowAIInsights] = useState(false);
+    const [showChatAI, setShowChatAI] = useState(false);
     const [journalEntries, setJournalEntries] = useState([]);
     const [editEntry, setEditEntry] = useState(null);
     const [aiAnalysis, setAiAnalysis] = useState(null);
     const [isSaving, setIsSaving] = useState(false);
     const [saveStatus, setSaveStatus] = useState("saving");
-    const [bulkResult, setBulkResult] = useState(null);
     const [insightsUpdated, setInsightsUpdated] = useState(false);
 
 
@@ -159,7 +158,7 @@ export function SideBar() {
   return (
     <div
       className={cn(
-        "mx-auto flex w-full max-w-7xl flex-1 flex-col overflow-hidden rounded-md border border-neutral-200 bg-gray-100 md:flex-row dark:border-neutral-700 dark:bg-neutral-800",
+        "mx-auto flex w-full flex-1 flex-col overflow-hidden rounded-md border border-neutral-200 bg-gray-100 md:flex-row dark:border-neutral-700 dark:bg-neutral-800",
         "min-h-screen",
       )}
     >
@@ -178,19 +177,19 @@ export function SideBar() {
                     setShowTagLibrary(true);
                     setShowDashboard(false);
                     setIsJournalModalOpen(false);
-                    setShowAIInsights(false);
+                    setShowChatAI(false);
                     break;
                     case "Dashboard":
                     setShowDashboard(true);
                     setShowTagLibrary(false);
                     setIsJournalModalOpen(false);
-                    setShowAIInsights(false);
+                    setShowChatAI(false);
                     break;
-                    case "AI Insights":
+                    case "Chat with AI":
+                    setShowChatAI(true);
                     setShowDashboard(false);
                     setShowTagLibrary(false);
                     setIsJournalModalOpen(false);
-                    setShowAIInsights(true);
                     break;
                     default:
                     break;
@@ -217,7 +216,7 @@ export function SideBar() {
             
             /> : null}
             {showTagLibrary ? <TagLibrary /> : null}
-            {showAIInsights ? <AiInsights journalEntries={journalEntries} onBulkComplete={() => setInsightsUpdated(true)} bulkResult={bulkResult} setBulkResult={setBulkResult}/> : []}
+            {showChatAI ? <ShareWithAi /> : null}
         </Dashboard>
       </Sidebar>
 

@@ -1,3 +1,4 @@
+
 /* ---------------------------------------------
    0) Font Definitions (Satoshi Full Family)
    --------------------------------------------- */
@@ -220,6 +221,9 @@
        If your Tailwind setup supports @theme -> .bg-black-default, etc. 
        you'll get them automatically. If not, define them manually:
   */
+  .btn-primary {
+    @apply rounded-xl bg-blue-600 text-white py-2 disabled:opacity-50;
+  }
   .bg-black-default {
     background-color: var(--color-black-default);
   }

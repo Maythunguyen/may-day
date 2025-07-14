@@ -20,7 +20,11 @@
     "motion": "^12.6.3",
     "next": "15.2.4",
     "react": "^19.0.0",
+    "react-audio-voice-recorder": "^2.2.0",
     "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0",
+    "react-speech-recognition": "^4.0.1",
+    "react-use-audio-recorder": "^0.4.2",
     "tailwind-merge": "^3.2.0"
   },
   "devDependencies": {
