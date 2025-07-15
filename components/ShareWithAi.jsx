@@ -21,7 +21,7 @@ export function ShareWithAi() {
         setDraft(e.target.value);
     };
 
-    const pushMessage = (role, content) => setMessageInput((p) => [...p, { role, content }]);
+    // const pushMessage = (role, content) => setMessageInput((p) => [...p, { role, content }]);
 
 
     const handleSubmit = async (e) => {
@@ -80,7 +80,8 @@ export function ShareWithAi() {
                 <VoiceInputModal 
                     isModalOpen={isModalOpen}
                     setIsModalOpen={setIsModalOpen}
-                    pushMessage={pushMessage} 
+                    // pushMessage={pushMessage}
+                    setMessageInput={setMessageInput}
                 />
             </div>
         </div>

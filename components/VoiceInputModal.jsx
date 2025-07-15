@@ -4,23 +4,25 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import { messageWithAiAPI } from "@/app/api/ChatWithAiAPI";
+import { X } from "lucide-react";
 
 export default function VoiceInputModal({
     isModalOpen,
     setIsModalOpen,
-    pushMessage,
+    setMessageInput,
 }) {
     const [thinking, setThinking] = useState(false);
-    const lastSentRef = useRef("");               // remembers what we’ve already sent
+    const [aiTalking, setAiTalking] = useState(false);
+    const lastSentRef = useRef("");               // remembers what we’ve already sent, keep track of the last thing already sent to AI, so when voice gives new words(finalTrsnacript), we do not need send the same words again by acident 
 
     const {
-        interimTranscript,
-        finalTranscript,
-        resetTranscript,
-        browserSupportsSpeechRecognition,
+        interimTranscript, //live words currently saying
+        finalTranscript, //finilized version after stop speaking 
+        resetTranscript, // clears transcript
+        browserSupportsSpeechRecognition, // checks if browser supports speech recognition - true/false
     } = useSpeechRecognition({ interimResults: true });
 
-  /* ---------- whenever a new final transcript appears ---------- */
+  /* ---------- whenever a new final transcript appears - watch for new spoken text ---------- */
     useEffect(() => {
         if (!isModalOpen) return;
         if (!finalTranscript) return;
@@ -34,11 +36,12 @@ export default function VoiceInputModal({
     }, [finalTranscript, isModalOpen]);
 
     const handleFinalText = async (message) => {
-        pushMessage?.("user", message);
+        setMessageInput((prev) => [...prev, { role: "user", content: message }]);
         setThinking(true);
+        setAiTalking(false); // reset AI talking state
 
         const { reply } = await messageWithAiAPI(message);
-        pushMessage?.("ai", reply);
+        setMessageInput((prev) => [...prev, { role: "ai", content: reply }]);
         setThinking(false);
 
         const utter = new SpeechSynthesisUtterance(reply);
@@ -47,39 +50,39 @@ export default function VoiceInputModal({
             .find(v => v.name === "Google UK English Female" || v.name.includes("Natural"));
 
         // silence mic while TTS plays
-        utter.onstart = () => SpeechRecognition.abortListening();
+        utter.onstart = () =>{ 
+            setAiTalking(true);
+            SpeechRecognition.abortListening()
+        };
         utter.onend = () => {
-        setThinking(false);
-        resetTranscript();                        // clear interim
-        SpeechRecognition.startListening({        // reopen mic
-            continuous: true,
-            interimResults: true,
-            onError: (event) => {
-                console.error("Speech error:", event.error);   // 👈 now you’ll see NotAllowedError, no-speech, etc.
-                if (event.error === "not-allowed") {
-                alert("Mic permission denied. Click the pad-lock icon and choose Allow.");
-                }
-            },
-        });
+            setAiTalking(false)  
+            setThinking(false);
+            resetTranscript();                      // clear interim
+            SpeechRecognition.startListening({        // reopen mic
+                continuous: true,
+                interimResults: true,
+            });
         };
 
+        window.speechSynthesis.cancel(); // cancel any stuck TTS
         window.speechSynthesis.speak(utter);
     };
 
+    //Starts the mic when the modal opens, Stops listening + resets everything when you close it
     useEffect(() => {
         if (!isModalOpen) return;
 
         if (!browserSupportsSpeechRecognition) {
-        alert("Voice recognition isn’t supported in this browser.");
-        return;
+            alert("Voice recognition isn’t supported in this browser.");
+            return;
         }
 
         SpeechRecognition.startListening({ continuous: true, interimResults: true });
         
         return () => {
-        SpeechRecognition.abortListening();
-        resetTranscript();
-        lastSentRef.current = "";
+            SpeechRecognition.abortListening();
+            resetTranscript();
+            lastSentRef.current = "";
         };
     }, [isModalOpen, browserSupportsSpeechRecognition]);
 
@@ -88,27 +91,32 @@ export default function VoiceInputModal({
         resetTranscript();
         lastSentRef.current = "";
         setIsModalOpen(false);
+        setMessageInput([]); // clear chat messages
+        setThinking(false);
+        setAiTalking(false);
+        window.speechSynthesis.cancel(); // stop any ongoing speech synthesis
     };
 
     if (!isModalOpen) return null;
 
-    return (
-        <div className="fixed inset-0 bg-black/70 z-50 grid place-items-center">
-            <div className="relative flex flex-col items-center">
-                <div
-                    className={`w-44 h-44 rounded-full bg-gradient-to-br from-blue-200 to-blue-600 ${
-                        !thinking ? "animate-pulse" : ""
-                    }`}
-                />
-                <p className="absolute bottom-52 w-80 text-center text-sm text-gray-200 px-4">
-                    {thinking ? "🤖 Thinking…" : interimTranscript || "Listening…"}
-                </p>
+    let micCircleClass = "w-32 h-32 rounded-full transition-all duration-500";
+    if (aiTalking) {
+        micCircleClass += " w-48 h-48 bg-blue-900 animate-pulse scale-110";
+    } else if (interimTranscript) {
+        micCircleClass += " w-48 h-48 bg-blue-800 animate-pulse scale-105";
+    } else {
+        micCircleClass += " bg-blue-400";
+    }
 
+    return (
+         <div className="fixed inset-0 bg-black z-50 grid place-items-center">
+            <div className="relative flex flex-col items-center">
+                <div className={micCircleClass} />
                 <button
                     onClick={handleClose}
-                    className="mt-16 w-14 h-14 rounded-full bg-white text-black grid place-items-center text-xl cursor-pointer"
+                    className="fixed bottom-10 left-1/2 transform -translate-x-1/2 w-14 h-14 rounded-full bg-white text-black flex items-center justify-center shadow-lg z-50 cursor-pointer"
                 >
-                    x
+                    <X size={24} />
                 </button>
             </div>
         </div>
