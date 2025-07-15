@@ -10,6 +10,7 @@ export function ShareWithAi() {
     const [messageInput, setMessageInput] = useState([]);
     const chatContainerRef = useRef(null);
     const [draft, setDraft] = useState("");  
+    const [interimTranscript, setInterimTranscript] = useState("");
 
     const placeholders = [
         "Would you like to share any thing today?",
@@ -20,9 +21,6 @@ export function ShareWithAi() {
     const handleChange = (e) => {
         setDraft(e.target.value);
     };
-
-    // const pushMessage = (role, content) => setMessageInput((p) => [...p, { role, content }]);
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -57,17 +55,24 @@ export function ShareWithAi() {
                         key={idx}
                         className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                         >
-                        <div
-                            className={`px-6 py-3 rounded-lg max-w-[90%] whitespace-pre-wrap break-words ${
-                            msg.role === "user"
-                                ? "bg-blue-100 text-black"
-                                : "bg-gray-100 text-black"
-                            }`}
-                        >
-                            {msg.content}
-                        </div>
+                            <div
+                                className={`px-6 py-3 rounded-lg max-w-[90%] whitespace-pre-wrap break-words ${
+                                msg.role === "user"
+                                    ? "bg-blue-100 text-black"
+                                    : "bg-gray-100 text-black"
+                                }`}
+                            >
+                                {msg.content}
+                            </div>
                         </div>
                     ))}
+                    {isModalOpen && interimTranscript && (
+                        <div className="flex justify-end">
+                            <div className="px-6 py-3 rounded-lg max-w-[90%] whitespace-pre-wrap break-words bg-blue-200 text-black opacity-80 italic animate-pulse">
+                                {interimTranscript}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -84,8 +89,8 @@ export function ShareWithAi() {
                 <VoiceInputModal 
                     isModalOpen={isModalOpen}
                     setIsModalOpen={setIsModalOpen}
-                    // pushMessage={pushMessage}
                     setMessageInput={setMessageInput}
+                    setInterimTranscript={setInterimTranscript}
                 />
             </div>
         </div>

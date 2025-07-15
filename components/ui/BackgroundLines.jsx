@@ -22,7 +22,7 @@ const pathVariants = {
   animate: {
     strokeDashoffset: 0,
     strokeDasharray: "20 800",
-    opacity: [0, 1, 1, 0],
+    opacity: [0, 1, 1, 0], 
   },
 };
 

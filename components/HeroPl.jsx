@@ -5,5 +5,5 @@ import { products } from "@/data";
 
 
 export function HeroParallaxDemo() {
-  return <HeroParallax products={products} id="about-mayday"/>;
+    return <HeroParallax products={products} id="about-mayday"/>;
 }

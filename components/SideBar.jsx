@@ -25,9 +25,9 @@ export function SideBar() {
         "/girl-sad.webp",
         "/girl1.webp",
     ];
-  const [open, setOpen] = useState(false);
-  const [isJournalModalOpen, setIsJournalModalOpen] = useState(false);
-  const [showTagLibrary, setShowTagLibrary] = useState(false);
+	const [open, setOpen] = useState(false);
+	const [isJournalModalOpen, setIsJournalModalOpen] = useState(false);
+	const [showTagLibrary, setShowTagLibrary] = useState(false);
     const [showDashboard, setShowDashboard] = useState(true);
     const [showChatAI, setShowChatAI] = useState(false);
     const [journalEntries, setJournalEntries] = useState([]);
@@ -42,23 +42,22 @@ export function SideBar() {
     const userId = user?.id;
 
     useEffect(() => {
-      if (saveStatus === "saved") {
-        const timer = setTimeout(() => {
-          setSaveStatus(""); // Clear it so message disappears
-        }, 2000);
-    
-        return () => clearTimeout(timer);
-      }
+		if (saveStatus === "saved") {
+			const timer = setTimeout(() => {
+			setSaveStatus(""); // Clear it so message disappears
+			}, 2000);
+		
+			return () => clearTimeout(timer);
+		}
     }, [saveStatus]);
 
     useEffect(() => {
-  
-      if (insightsUpdated) {
-        const timer = setTimeout(() => {
-          setInsightsUpdated(false)
-        }, 3000)
-        return () => clearTimeout(timer);
-      }
+		if (insightsUpdated) {
+			const timer = setTimeout(() => {
+			setInsightsUpdated(false)
+			}, 3000)
+			return () => clearTimeout(timer);
+		}
 
     }, [insightsUpdated])
 
@@ -101,36 +100,36 @@ export function SideBar() {
         }
         // Edit entry
         if (editId) {
-          updated = existing.map((entry) => {
+          	updated = existing.map((entry) => {
             if (entry.id === editId) {
-              return {
-                ...entry,
-                title,
-                content,
-                tag,
-                mood,
-                backgroundImage,
-                createdAt: new Date().toISOString(),
-                analysis: result,    
-              };
+				return {
+					...entry,
+					title,
+					content,
+					tag,
+					mood,
+					backgroundImage,
+					createdAt: new Date().toISOString(),
+					analysis: result,    
+				};
             }
             return entry;
           });
         } else {
-          const newEntry = {
-            id: Date.now(),
-            title,
-            content,
-            tag,
-            mood,
-            createdAt: new Date().toISOString(),
-            backgroundImage:
-              backgroundImage ||
-              localImages[Math.floor(Math.random() * localImages.length)],
-            analysis: result, 
-          };
+          	const newEntry = {
+				id: Date.now(),
+				title,
+				content,
+				tag,
+				mood,
+				createdAt: new Date().toISOString(),
+				backgroundImage:
+				backgroundImage ||
+				localImages[Math.floor(Math.random() * localImages.length)],
+				analysis: result, 
+			};
       
-          updated = [...existing, newEntry];
+         	 updated = [...existing, newEntry];
         }
         localStorage.setItem(userId, JSON.stringify(updated));
         setJournalEntries(updated);
@@ -157,91 +156,89 @@ export function SideBar() {
 
   return (
     <div
-      className={cn(
-        "mx-auto flex w-full flex-1 flex-col overflow-hidden rounded-md border border-neutral-200 bg-gray-100 md:flex-row dark:border-neutral-700 dark:bg-neutral-800",
-        "min-h-screen",
-      )}
+		className={cn(
+			"mx-auto flex w-full flex-1 flex-col overflow-hidden rounded-md border border-neutral-200 bg-gray-100 md:flex-row dark:border-neutral-700 dark:bg-neutral-800",
+			"min-h-screen",
+		)}
     >
-      <Sidebar open={open} setOpen={setOpen}>
-        <SidebarBody className="justify-between gap-10">
-          <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
-            {open ? <Logo /> : <LogoIcon />}
-            <div className="mt-8 flex flex-col gap-2">
-            {links.map((link, idx) => {
-                const handleClick = () => {
-                switch (link.label) {
-                    case "Create Journal":
-                    setIsJournalModalOpen(true);
-                    break;
-                    case "Tags Library":
-                    setShowTagLibrary(true);
-                    setShowDashboard(false);
-                    setIsJournalModalOpen(false);
-                    setShowChatAI(false);
-                    break;
-                    case "Dashboard":
-                    setShowDashboard(true);
-                    setShowTagLibrary(false);
-                    setIsJournalModalOpen(false);
-                    setShowChatAI(false);
-                    break;
-                    case "Chat with AI":
-                    setShowChatAI(true);
-                    setShowDashboard(false);
-                    setShowTagLibrary(false);
-                    setIsJournalModalOpen(false);
-                    break;
-                    default:
-                    break;
-                }
-                setOpen(false);
-            };
+		<Sidebar open={open} setOpen={setOpen}>
+			<SidebarBody className="justify-between gap-10">
+			<div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
+				{open ? <Logo /> : <LogoIcon />}
+				<div className="mt-8 flex flex-col gap-2">
+				{links.map((link, idx) => {
+					const handleClick = () => {
+					switch (link.label) {
+						case "Create Journal":
+						setIsJournalModalOpen(true);
+						break;
+						case "Tags Library":
+						setShowTagLibrary(true);
+						setShowDashboard(false);
+						setIsJournalModalOpen(false);
+						setShowChatAI(false);
+						break;
+						case "Dashboard":
+						setShowDashboard(true);
+						setShowTagLibrary(false);
+						setIsJournalModalOpen(false);
+						setShowChatAI(false);
+						break;
+						case "Chat with AI":
+						setShowChatAI(true);
+						setShowDashboard(false);
+						setShowTagLibrary(false);
+						setIsJournalModalOpen(false);
+						break;
+						default:
+						break;
+					}
+					setOpen(false);
+				};
 
-                return (
-                <button key={idx} onClick={() => handleClick(link.label)} className="text-left w-full">
-                    <SidebarLink link={link} />
-                </button>
-                );
-            })}
-            </div>
-          </div>
-        </SidebarBody>
-        <Dashboard>
-            {showDashboard ? <DashboardSingle journalEntries={journalEntries} onEdit={(entry) => { 
-                setEditEntry(entry);
-                setIsJournalModalOpen(true);
-            }} 
-            analysis={aiAnalysis}
-            onDelete={handleDeleteJournal}
-            
-            /> : null}
-            {showTagLibrary ? <TagLibrary /> : null}
-            {showChatAI ? <ShareWithAi /> : null}
-        </Dashboard>
-      </Sidebar>
-
-      {/* Show modal if open */}
-      {isJournalModalOpen && (
-        <JournalModal 
-            onClose={() => {
-                setIsJournalModalOpen(false);
-                setEditEntry(null);
-            }} 
-            onSave={handleSaveJournal}
-            initialData={editEntry}
-            isSaving={isSaving}
-        />
-      )}
-      {!isSaving && saveStatus === "saved" && (
-        <div className="fixed bottom-5 right-5 z-50 px-4 py-2 rounded-xl bg-green-100 border border-green-400 text-green-900 text-sm shadow-lg">
-          Saved!
-        </div>
-      )}
-      {insightsUpdated && (
-        <div className="fixed bottom-5 right-5 z-50 px-4 py-2 rounded-xl bg-green-100 border border-green-400 text-green-900 text-sm shadow-lg">
-          May Day have some ingsights for you! Let go to AI Insights section!
-        </div>
-      )}
+					return (
+					<button key={idx} onClick={() => handleClick(link.label)} className="text-left w-full">
+						<SidebarLink link={link} />
+					</button>
+					);
+				})}
+				</div>
+			</div>
+			</SidebarBody>
+			<Dashboard>
+				{showDashboard ? <DashboardSingle journalEntries={journalEntries} onEdit={(entry) => { 
+					setEditEntry(entry);
+					setIsJournalModalOpen(true);
+				}} 
+				analysis={aiAnalysis}
+				onDelete={handleDeleteJournal}
+				
+				/> : null}
+				{showTagLibrary ? <TagLibrary /> : null}
+				{showChatAI ? <ShareWithAi /> : null}
+			</Dashboard>
+		</Sidebar>
+		{isJournalModalOpen && (
+			<JournalModal 
+				onClose={() => {
+					setIsJournalModalOpen(false);
+					setEditEntry(null);
+				}} 
+				onSave={handleSaveJournal}
+				initialData={editEntry}
+				isSaving={isSaving}
+			/>
+		)}
+		{!isSaving && saveStatus === "saved" && (
+			<div className="fixed bottom-5 right-5 z-50 px-4 py-2 rounded-xl bg-green-100 border border-green-400 text-green-900 text-sm shadow-lg">
+				Saved!
+			</div>
+		)}
+		{insightsUpdated && (
+			<div className="fixed bottom-5 right-5 z-50 px-4 py-2 rounded-xl bg-green-100 border border-green-400 text-green-900 text-sm shadow-lg">
+				May Day have some ingsights for you! Let go to AI Insights section!
+			</div>
+		)}
     </div>
   );
 }
