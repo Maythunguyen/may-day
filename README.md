@@ -1,6 +1,6 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-This is a journal application built using Next.js, designed to enhance emotional self-awareness and reflection through journaling, AI-driven insights, and mood tracking
+This is a journal application built using Next.js, designed to enhance emotional self-awareness and reflection through journaling, AI-driven insights, and an have the AI chat and voice chat about your mood! 
 
 ## Project Setup
 ```bash
@@ -52,13 +52,13 @@ You can start editing the page by modifying `app/page.js`. The page auto-updates
 
 - Individual entry analysis provided by GPT-4 for emotional context.
 
-- Bulk analysis identifies recurring emotional patterns related to people mentioned.
-
 - Mood and Tagging System
 
 - Users categorize entries using moods (Happy, Sad, Angry, etc.) and custom tags.
 
 - Filter journal entries by mood or tag.
+
+- Message Chat or voice Chat with AI 
 
 
 User-specific journal data persisted in browser local storage.
@@ -100,3 +100,6 @@ Vercel (Frontend hosting)
 - Add image upload feature to caption the beautiful moments in daily life. 
 - Improve the responsive on mobile device
 - Cloud database integration for improved data storage and retrieval.
+- Add more feature for Writing Journal by voice or audio.
+- Save the convo with AI
+- Bulk feature that give alert for a pattern that happens many times
