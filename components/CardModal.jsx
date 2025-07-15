@@ -15,7 +15,7 @@ const CardModal = ({ onClose, entry }) => {
     animate={{ scale: 1, opacity: 1 }}
     exit={{ scale: 0.9, opacity: 0 }}
     transition={{ type: "spring", stiffness: 200, damping: 20 }}
-    className="bg-white dark:bg-neutral-400 p-10 rounded-4xl shadow-xl w-full max-w-md"
+    className="bg-white dark:bg-neutral-400 p-10 rounded-4xl shadow-xl w-[90vw] max-w-5xl"
   >
     
     <div className='flex flex-col gap-4 w-full'>
