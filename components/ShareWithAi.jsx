@@ -51,19 +51,23 @@ export function ShareWithAi() {
         <div className="h-screen flex flex-col justify-self-start mx-auto">
             <div className="flex-1 overflow-y-auto px-6 pt-6 pb-32" ref={chatContainerRef}>
                 <h2 className="mb-10 sm:mb-20 text-xl text-center sm:text-5xl">Share <span>MayAI </span> Anything</h2>
-                <div className="space-y-2 max-w-2xl mx-auto">
-                {messageInput.map((msg, idx) => (
-                    <div
-                    key={idx}
-                    className={`px-6 py-3 rounded-lg backdrop-blur-md ${
-                        msg.role === "user"
-                        ? "bg-gray-50 text-right"
-                        : "bg-gray-50 text-left"
-                    }`}
-                    >
-                    <p>{msg.content}</p>
-                    </div>
-                ))}
+                <div className="flex flex-col space-y-2 max-w-2xl mx-auto">
+                    {messageInput.map((msg, idx) => (
+                        <div
+                        key={idx}
+                        className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+                        >
+                        <div
+                            className={`px-6 py-3 rounded-lg max-w-[90%] whitespace-pre-wrap break-words ${
+                            msg.role === "user"
+                                ? "bg-blue-100 text-black"
+                                : "bg-gray-100 text-black"
+                            }`}
+                        >
+                            {msg.content}
+                        </div>
+                        </div>
+                    ))}
                 </div>
             </div>
 
