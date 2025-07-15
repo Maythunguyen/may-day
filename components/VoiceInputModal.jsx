@@ -10,7 +10,6 @@ export default function VoiceInputModal({
     isModalOpen,
     setIsModalOpen,
     setMessageInput,
-    setInterimTranscript,
 }) {
     const [thinking, setThinking] = useState(false);
     const [aiTalking, setAiTalking] = useState(false);
@@ -97,12 +96,6 @@ export default function VoiceInputModal({
         setAiTalking(false);
         window.speechSynthesis.cancel(); // stop any ongoing speech synthesis
     };
-
-    useEffect(() => {
-        if (isModalOpen) {
-            setInterimTranscript?.(interimTranscript);
-        }
-    }, [interimTranscript, isModalOpen]);
 
     if (!isModalOpen) return null;
 

@@ -10,7 +10,6 @@ export function ShareWithAi() {
     const [messageInput, setMessageInput] = useState([]);
     const chatContainerRef = useRef(null);
     const [draft, setDraft] = useState("");  
-    const [interimTranscript, setInterimTranscript] = useState("");
 
     const placeholders = [
         "Would you like to share any thing today?",
@@ -66,13 +65,6 @@ export function ShareWithAi() {
                             </div>
                         </div>
                     ))}
-                    {isModalOpen && interimTranscript && (
-                        <div className="flex justify-end">
-                            <div className="px-6 py-3 rounded-lg max-w-[90%] whitespace-pre-wrap break-words bg-blue-200 text-black opacity-80 italic animate-pulse">
-                                {interimTranscript}
-                            </div>
-                        </div>
-                    )}
                 </div>
             </div>
 
@@ -90,7 +82,6 @@ export function ShareWithAi() {
                     isModalOpen={isModalOpen}
                     setIsModalOpen={setIsModalOpen}
                     setMessageInput={setMessageInput}
-                    setInterimTranscript={setInterimTranscript}
                 />
             </div>
         </div>
