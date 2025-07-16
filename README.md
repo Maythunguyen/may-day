@@ -101,5 +101,5 @@ Vercel (Frontend hosting)
 - Improve the responsive on mobile device
 - Cloud database integration for improved data storage and retrieval.
 - Add more feature for Writing Journal by voice or audio.
-- Save the convo with AI
+- Save the convo with AI, make the convo smoother by create the chat history
 - Bulk feature that give alert for a pattern that happens many times on an event or a person by AGENTIC model 
