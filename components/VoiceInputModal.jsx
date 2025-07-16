@@ -61,6 +61,7 @@ export default function VoiceInputModal({
             SpeechRecognition.startListening({        // reopen mic
                 continuous: true,
                 interimResults: true,
+                language: "en"
             });
         };
 
@@ -91,7 +92,6 @@ export default function VoiceInputModal({
         resetTranscript();
         lastSentRef.current = "";
         setIsModalOpen(false);
-        setMessageInput([]); // clear chat messages
         setThinking(false);
         setAiTalking(false);
         window.speechSynthesis.cancel(); // stop any ongoing speech synthesis
