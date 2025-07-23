@@ -76,17 +76,9 @@ export function SideBar() {
 
         // AI Analysis
         try {
-            const aiResponse = await AiAnalyseData({
-                userId,
-                title, 
-                content,
-                tag,
-                mood,
-            });
+            const aiResponse = await AiAnalyseData({ userId, title, content, tag, mood });
 
-            
             result = aiResponse.result
-            console.log("AI Analysis Result:", result);
             setAiAnalysis(result);
             setSaveStatus("saved");
 
@@ -96,24 +88,13 @@ export function SideBar() {
               setEditEntry(null);
 
             }, 1000)
-
-
-
         } catch (error) {
             console.error("Error fetching AI analysis:", error);
             setSaveStatus("error");
             setTimeout(() => setIsSaving(false), 2000);
         }
 
-		const payload = {
-			userId,
-			title,
-			content,
-			tag,
-			mood,
-			backgroundImage: backgroundImage || localImages[Math.floor(Math.random() * localImages.length)],
-			analysis: result,
-		}
+		const payload = { userId, title, content, tag, mood, backgroundImage: backgroundImage || localImages[Math.floor(Math.random() * localImages.length)], analysis: result }
 
 		const res = await fetch('/api/journals', {
 			method : editId ? 'PUT' : 'POST',
