@@ -137,7 +137,7 @@ export function JournalModal({ onClose, onSave, initialData, isSaving }) {
 								selectedTag,
 								selectedMood,
 								selectedBackground,
-								initialData?.id
+								initialData?._id
 								);
 							} 
 						}}  

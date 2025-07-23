@@ -39,7 +39,7 @@ export function SideBar() {
 
 
     const { user } = useUser(); 
-    const userId = user?.id;
+    const userId   = user?.id || "demoUser";
 
     useEffect(() => {
 		if (saveStatus === "saved") {
@@ -61,10 +61,17 @@ export function SideBar() {
 
     }, [insightsUpdated])
 
+	const loadJournals = async () => {
+		if (!userId) return;
+		const res   = await fetch(`/api/journals?userId=${userId}`);
+		const data  = await res.json();
+		setJournalEntries(data);
+	};
+
+	useEffect(() => { loadJournals(); }, [userId]);
+
     const handleSaveJournal = async (title, content, tag, mood, backgroundImage, editId) => {
         setIsSaving(true);
-        const existing = JSON.parse(localStorage.getItem(userId)) || [];
-        let updated;
         let result = null
 
         // AI Analysis
@@ -81,7 +88,6 @@ export function SideBar() {
             result = aiResponse.result
             console.log("AI Analysis Result:", result);
             setAiAnalysis(result);
-
             setSaveStatus("saved");
 
             setTimeout(() => {
@@ -98,147 +104,118 @@ export function SideBar() {
             setSaveStatus("error");
             setTimeout(() => setIsSaving(false), 2000);
         }
-        // Edit entry
-        if (editId) {
-          	updated = existing.map((entry) => {
-            if (entry.id === editId) {
-				return {
-					...entry,
-					title,
-					content,
-					tag,
-					mood,
-					backgroundImage,
-					createdAt: new Date().toISOString(),
-					analysis: result,    
-				};
-            }
-            return entry;
-          });
-        } else {
-          	const newEntry = {
-				id: Date.now(),
-				title,
-				content,
-				tag,
-				mood,
-				createdAt: new Date().toISOString(),
-				backgroundImage:
-				backgroundImage ||
-				localImages[Math.floor(Math.random() * localImages.length)],
-				analysis: result, 
-			};
-      
-         	 updated = [...existing, newEntry];
-        }
-        localStorage.setItem(userId, JSON.stringify(updated));
-        setJournalEntries(updated);
+
+		const payload = {
+			userId,
+			title,
+			content,
+			tag,
+			mood,
+			backgroundImage: backgroundImage || localImages[Math.floor(Math.random() * localImages.length)],
+			analysis: result,
+		}
+
+		const res = await fetch('/api/journals', {
+			method : editId ? 'PUT' : 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body   : JSON.stringify(editId ? { ...payload, _id: editId } : payload),
+		});
+        if (!res.ok) { console.error(await res.text()); return; }
+		await loadJournals(); 
         setIsJournalModalOpen(false);
         setEditEntry(null);
     };
 
-    const handleDeleteJournal = (deleteId) => {
-        const existing = JSON.parse(localStorage.getItem(userId)) || [];
-        const updated = existing.filter((entry) => entry.id !== deleteId);
-        localStorage.setItem(userId, JSON.stringify(updated));
-        setJournalEntries(updated);
+    const handleDeleteJournal = async (mongoId) => {
+		await fetch(`/api/journals?_id=${mongoId}`, { method: 'DELETE' });
+		await loadJournals();
+	};
 
-    }
+	return (
+		<div
+			className={cn(
+				"mx-auto flex w-full flex-1 flex-col overflow-hidden rounded-md border border-neutral-200 bg-gray-100 md:flex-row dark:border-neutral-700 dark:bg-neutral-800",
+				"min-h-screen",
+			)}
+		>
+			<Sidebar open={open} setOpen={setOpen}>
+				<SidebarBody className="justify-between gap-10">
+				<div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
+					{open ? <Logo /> : <LogoIcon />}
+					<div className="mt-8 flex flex-col gap-2">
+					{links.map((link, idx) => {
+						const handleClick = () => {
+						switch (link.label) {
+							case "Create Journal":
+							setIsJournalModalOpen(true);
+							break;
+							case "Tags Library":
+							setShowTagLibrary(true);
+							setShowDashboard(false);
+							setIsJournalModalOpen(false);
+							setShowChatAI(false);
+							break;
+							case "Dashboard":
+							setShowDashboard(true);
+							setShowTagLibrary(false);
+							setIsJournalModalOpen(false);
+							setShowChatAI(false);
+							break;
+							case "Chat with AI":
+							setShowChatAI(true);
+							setShowDashboard(false);
+							setShowTagLibrary(false);
+							setIsJournalModalOpen(false);
+							break;
+							default:
+							break;
+						}
+						setOpen(false);
+					};
 
-    useEffect(() => {
-        if(userId) {
-            const stored = JSON.parse(localStorage.getItem(userId)) || [];
-            setJournalEntries(stored);
-        }
-
-    }, [userId]);
-
-
-  return (
-    <div
-		className={cn(
-			"mx-auto flex w-full flex-1 flex-col overflow-hidden rounded-md border border-neutral-200 bg-gray-100 md:flex-row dark:border-neutral-700 dark:bg-neutral-800",
-			"min-h-screen",
-		)}
-    >
-		<Sidebar open={open} setOpen={setOpen}>
-			<SidebarBody className="justify-between gap-10">
-			<div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
-				{open ? <Logo /> : <LogoIcon />}
-				<div className="mt-8 flex flex-col gap-2">
-				{links.map((link, idx) => {
-					const handleClick = () => {
-					switch (link.label) {
-						case "Create Journal":
-						setIsJournalModalOpen(true);
-						break;
-						case "Tags Library":
-						setShowTagLibrary(true);
-						setShowDashboard(false);
-						setIsJournalModalOpen(false);
-						setShowChatAI(false);
-						break;
-						case "Dashboard":
-						setShowDashboard(true);
-						setShowTagLibrary(false);
-						setIsJournalModalOpen(false);
-						setShowChatAI(false);
-						break;
-						case "Chat with AI":
-						setShowChatAI(true);
-						setShowDashboard(false);
-						setShowTagLibrary(false);
-						setIsJournalModalOpen(false);
-						break;
-						default:
-						break;
-					}
-					setOpen(false);
-				};
-
-					return (
-					<button key={idx} onClick={() => handleClick(link.label)} className="text-left w-full">
-						<SidebarLink link={link} />
-					</button>
-					);
-				})}
+						return (
+						<button key={idx} onClick={() => handleClick(link.label)} className="text-left w-full">
+							<SidebarLink link={link} />
+						</button>
+						);
+					})}
+					</div>
 				</div>
-			</div>
-			</SidebarBody>
-			<Dashboard>
-				{showDashboard ? <DashboardSingle journalEntries={journalEntries} onEdit={(entry) => { 
-					setEditEntry(entry);
-					setIsJournalModalOpen(true);
-				}} 
-				analysis={aiAnalysis}
-				onDelete={handleDeleteJournal}
-				
-				/> : null}
-				{showTagLibrary ? <TagLibrary /> : null}
-				{showChatAI ? <ShareWithAi /> : null}
-			</Dashboard>
-		</Sidebar>
-		{isJournalModalOpen && (
-			<JournalModal 
-				onClose={() => {
-					setIsJournalModalOpen(false);
-					setEditEntry(null);
-				}} 
-				onSave={handleSaveJournal}
-				initialData={editEntry}
-				isSaving={isSaving}
-			/>
-		)}
-		{!isSaving && saveStatus === "saved" && (
-			<div className="fixed bottom-5 right-5 z-50 px-4 py-2 rounded-xl bg-green-100 border border-green-400 text-green-900 text-sm shadow-lg">
-				Saved!
-			</div>
-		)}
-		{insightsUpdated && (
-			<div className="fixed bottom-5 right-5 z-50 px-4 py-2 rounded-xl bg-green-100 border border-green-400 text-green-900 text-sm shadow-lg">
-				May Day have some ingsights for you! Let go to AI Insights section!
-			</div>
-		)}
-    </div>
-  );
+				</SidebarBody>
+				<Dashboard>
+					{showDashboard ? <DashboardSingle journalEntries={journalEntries} onEdit={(entry) => { 
+						setEditEntry(entry);
+						setIsJournalModalOpen(true);
+					}} 
+					analysis={aiAnalysis}
+					onDelete={handleDeleteJournal}
+					
+					/> : null}
+					{showTagLibrary ? <TagLibrary /> : null}
+					{showChatAI ? <ShareWithAi /> : null}
+				</Dashboard>
+			</Sidebar>
+			{isJournalModalOpen && (
+				<JournalModal 
+					onClose={() => {
+						setIsJournalModalOpen(false);
+						setEditEntry(null);
+					}} 
+					onSave={handleSaveJournal}
+					initialData={editEntry}
+					isSaving={isSaving}
+				/>
+			)}
+			{!isSaving && saveStatus === "saved" && (
+				<div className="fixed bottom-5 right-5 z-50 px-4 py-2 rounded-xl bg-green-100 border border-green-400 text-green-900 text-sm shadow-lg">
+					Saved!
+				</div>
+			)}
+			{insightsUpdated && (
+				<div className="fixed bottom-5 right-5 z-50 px-4 py-2 rounded-xl bg-green-100 border border-green-400 text-green-900 text-sm shadow-lg">
+					May Day have some ingsights for you! Let go to AI Insights section!
+				</div>
+			)}
+		</div>
+	);
 }

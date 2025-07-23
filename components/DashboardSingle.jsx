@@ -73,7 +73,7 @@ export const DashboardSingle = ({ journalEntries = [], onEdit, onDelete }) => {
                                                 width={20}
                                                 height={20}
                                                 alt="Picture of the author"
-                                            onClick={(e) => { e.stopPropagation(); onEdit(entry); }}
+                                                onClick={(e) => { e.stopPropagation(); onEdit(entry); }}
                                             />
                             
                                         </div>
@@ -83,7 +83,7 @@ export const DashboardSingle = ({ journalEntries = [], onEdit, onDelete }) => {
                                                 width={20}
                                                 height={20}
                                                 alt="Picture of the author"
-                                                onClick={(e) => { e.stopPropagation(); onDelete(entry.id); }}
+                                                onClick={(e) => { e.stopPropagation(); onDelete(entry._id); }}
                                             />
                                         </div>
                                     </div>

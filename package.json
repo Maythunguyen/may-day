@@ -17,6 +17,7 @@
     "@tiptap/starter-kit": "^2.11.7",
     "clsx": "^2.1.1",
     "lucide-react": "^0.487.0",
+    "mongodb": "^6.17.0",
     "motion": "^12.6.3",
     "next": "15.2.4",
     "react": "^19.0.0",
