@@ -35,6 +35,8 @@ You can start editing the page by modifying `app/page.js`. The page auto-updates
 
 - User authentication implemented via Clerk.
 
+- Fetch and display data to frontend from MongoBD 
+
 ## Backend
 
 - Python backend with FastAPI framework, deployed on Render.
@@ -89,6 +91,8 @@ Python
 
 FastAPI
 
+MongoDB
+
 OpenAI GPT-4
 
 Render (Backend hosting)
@@ -99,7 +103,6 @@ Vercel (Frontend hosting)
 - Enhanced AI insights feature for deeper emotional analysis. This feature aggregates entries related to the same person or event, allowing the AI to analyse and provide recommendations or alerts regarding their positive or negative impacts.
 - Add image upload feature to caption the beautiful moments in daily life. 
 - Improve the responsive on mobile device
-- Cloud database integration for improved data storage and retrieval.
 - Add more feature for Writing Journal by voice or audio.
 - Save the convo with AI, make the convo smoother by create the chat history
 - Bulk feature that give alert for a pattern that happens many times on an event or a person by AGENTIC model 

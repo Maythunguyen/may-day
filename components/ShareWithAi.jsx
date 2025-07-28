@@ -1,5 +1,5 @@
 "use client";
-
+import * as Sentry from "@sentry/nextjs";
 import { messageWithAiAPI } from "@/app/api/ChatWithAiAPI";
 import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
 import VoiceInputModal from "./VoiceInputModal";
@@ -35,6 +35,14 @@ export function ShareWithAi() {
 
         } catch (error) {
             console.error("Error sending message to AI:", error);
+            Sentry.captureException(error, {
+                tags: {
+                    component: "ShareWithAi",
+                },
+                extra: {
+                    messageSent: value,
+                },
+            });
             setMessageInput((prev) => [...prev, { role: "assistant", content: "⚠️ Failed to get response." }]);
         }
     };

@@ -1,4 +1,5 @@
 "use client";
+import * as Sentry from "@sentry/nextjs";
 import React, { useState, useEffect } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "./ui/Sidebar";
 import { links } from "@/data";
@@ -90,6 +91,7 @@ export function SideBar() {
             }, 1000)
         } catch (error) {
             console.error("Error fetching AI analysis:", error);
+			Sentry.captureException(error);
             setSaveStatus("error");
             setTimeout(() => setIsSaving(false), 2000);
         }
