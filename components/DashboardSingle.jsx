@@ -13,10 +13,11 @@ export const DashboardSingle = ({ journalEntries = [], onEdit, onDelete }) => {
     const [selectedTag, setSelectedTag] = useState(null);
     const [showCards, setShowCards] = useState(false);
 
+    const safeEntries = Array.isArray(journalEntries) ? journalEntries : [];
     // Filter journal entries based on selectedTag
     const filteredEntries = selectedTag
-        ? journalEntries.filter((entry) => entry.tag === selectedTag)
-        : journalEntries;
+        ? safeEntries.filter((entry) => entry.tag === selectedTag)
+        : safeEntries;
     return (
         <div className="flex flex-1">
             <div
